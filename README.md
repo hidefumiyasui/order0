@@ -1,24 +1,90 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+## users テーブル
 
-* Ruby version
+| Column      | Type     | Options     |
+| ---------   | -------- | --------    |
+| nickname    | string   | null: false |
+| email       | string   | null: false |
+| password    | string   | null: false |
+| family_name | string   | null: false |
+| first_name  | string   | null: false |
+| birthday    | date     | null: false |
 
-* System dependencies
 
-* Configuration
+### Association
 
-* Database creation
+- has_one :carts
+- has_many :creditcards
+- has_many :payments
 
-* Database initialization
 
-* How to run the test suite
+## creditcards テーブル
 
-* Services (job queues, cache servers, search engines, etc.)
+| Column      | Type       | Options                        |
+| ---------   | --------   | --------                       |
+| user        | references | null: false, foreign_key: true |
+| customer_id | string     | null: false                    |
+| card_id     | string     | null: false                    |
 
-* Deployment instructions
 
-* ...
+### Association
+- belongs_to :user
+
+
+## items テーブル
+
+| Column      | Type       | Options                        |
+| --------    | --------   | ------------                   |
+| image       | string     | null: false                    |
+| name        | string     | null: false                    |
+| explanation | text       | null: false                    |
+| price       | integer    | null: false                    |
+| genre       | references | null: false, foreign_key: true |
+
+
+### Association
+
+- belongs_to :genre
+- has_one :items
+
+
+## genre テーブル
+
+| Column      | Type       | Options      |
+| --------    | --------   | ------------ |
+| name        | string     | null: false  |
+
+
+### Association
+- has_many :items
+
+
+## carts テーブル
+
+| Column   | Type       | Options                        |
+| -------- | --------   | ------------                   |
+| user     | references | null: false, foreign_key: true |
+| item     | references | null: false, foreign_key: true |
+| quantity | integer    | null: false                    |
+
+
+## Association
+
+- belongs_to :user
+- belongs_to :item
+- has_one :order
+
+
+## order テーブル
+
+| Column    | Type       | Options                        |
+| --------  | --------   | ------------                   |
+| cart      | references | null: false, foreign_key: true |
+
+
+## Association
+
+- belongs_to :order
+- has_one :payment
