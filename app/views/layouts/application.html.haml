@@ -1,0 +1,32 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Order0
+    = csrf_meta_tags
+    = csp_meta_tag
+    %script{src: "https://js.pay.jp/", type: "text/javascript"}
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+  %body
+    %nav
+      \#{link_to "トップページ", root_path}
+      / user_signed_in? はユーザがログインしているか調べるdeviseのHelperメソッド
+      - if user_signed_in?
+        / current_user は現在ログインしているUserオブジェクトを返すdeviseのHelperメソッド
+        /
+          *_path はUserモデルを作成したときに、
+          deviseにより自動で作成されてますので、rake routesで確認できます
+        Logged in as
+        = succeed "." do
+          %strong= current_user.nickname
+        = link_to 'プロフィール変更', edit_user_registration_path
+        |
+        \#{link_to "ログアウト", sign_out_path}
+      - else
+        = link_to "新規登録", new_user_registration_path
+        |
+        \#{link_to "ログイン", new_user_session_path}
+    %p.notice= notice
+    %p.alert= alert
+    = yield
