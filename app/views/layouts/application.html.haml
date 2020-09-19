@@ -11,6 +11,7 @@
   %body
     %nav
       \#{link_to "トップページ", root_path}
+      = link_to 'メニュー', items_path
       / user_signed_in? はユーザがログインしているか調べるdeviseのHelperメソッド
       - if user_signed_in?
         / current_user は現在ログインしているUserオブジェクトを返すdeviseのHelperメソッド
