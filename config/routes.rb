@@ -4,6 +4,14 @@ Rails.application.routes.draw do
     :sessions => 'users/sessions'   
   } 
 
+  resources :card, only: [:new, :show] do
+    collection do
+      post 'show', to: 'card#show'
+      post 'pay', to: 'card#pay'
+      post 'delete', to: 'card#delete'
+    end
+  end
+
   devise_scope :user do
     get "sign_in", :to => "users/sessions#new"
     get "sign_out", :to => "users/sessions#destroy" 
@@ -13,4 +21,6 @@ Rails.application.routes.draw do
   get 'home/show'
 
   root to: "home#index"
+
+
 end
